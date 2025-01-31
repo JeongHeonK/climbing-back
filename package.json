@@ -1,0 +1,26 @@
+{
+  "name": "back-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc-watch --onSuccess \"node dist/index.js\"",
+    "dev": "tsc-watch --onSuccess \"nodemon dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^7.8.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "eslint": "^9.19.0",
+    "nodemon": "^3.1.9",
+    "tsc-watch": "^6.2.1",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^5.7.3"
+  }
+}
