@@ -6,6 +6,10 @@ import User from "./model/User";
 const app = express();
 const url = process.env.MONGO_DB_URL!;
 
+app.get("/", (req, res) => {
+  res.send("docker랑 병행중");
+});
+
 app.get("/user/:email", async (req, res) => {
   const { email } = req.params;
   const existingUser = User.find({ email });
