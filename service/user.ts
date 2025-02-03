@@ -28,3 +28,27 @@ export const login = (req: CustomRequest, res: Response) => {
 
   res.status(200).send("login success");
 };
+
+export const checkValidEmail = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body;
+  const existingEmail = await User.findOne({ email });
+
+  if (existingEmail) {
+    res.send(401).send({ message: AUTH_ERROR_MESSAGES.existingEmail });
+    return;
+  }
+
+  next();
+};
+
+export const signup = async (req: CustomRequest, res: Response) => {
+  const { newMemberData } = req.body;
+
+  const newMember = await User.create(newMemberData);
+
+  res.send(200).send({ message: "success" });
+};
