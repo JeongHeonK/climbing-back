@@ -2,13 +2,16 @@ import express from "express";
 import "dotenv/config";
 import mongoose from "mongoose";
 import User from "./model/User";
+import { PORT, URL } from "./constant";
+import { loginRoute } from "./routes";
 
 const app = express();
-const url = process.env.MONGO_DB_URL!;
 
-app.get("/", (req, res) => {
-  res.send("docker랑 병행중");
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/login", loginRoute);
+app.use("/signup");
 
 app.get("/user/:email", async (req, res) => {
   const { email } = req.params;
@@ -17,5 +20,5 @@ app.get("/user/:email", async (req, res) => {
   res.send(!!existingUser);
 });
 
-app.listen(8080, () => console.log("Server started"));
-mongoose.connect(url).then(() => console.log("connect db"));
+app.listen(PORT, () => console.log("Server started"));
+mongoose.connect(URL).then(() => console.log("connect db"));
