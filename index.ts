@@ -3,7 +3,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import User from "./model/User";
 import { PORT, URL } from "./constant";
-import { loginRoute } from "./routes";
+import { loginRoute, signupRoute } from "./routes";
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/login", loginRoute);
-app.use("/signup");
+app.use("/signup", signupRoute);
 
 app.get("/user/:email", async (req, res) => {
   const { email } = req.params;
