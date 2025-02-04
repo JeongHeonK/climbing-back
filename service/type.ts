@@ -5,6 +5,6 @@ interface Member {
   password?: string;
 }
 
-export interface CustomRequest extends Request {
+export interface CustomUserRequest extends Request {
   member?: Member;
 }

@@ -1,10 +1,10 @@
 import { NextFunction, Response } from "express";
 import User from "../model/User";
 import { AUTH_ERROR_MESSAGES } from "../constant";
-import { CustomRequest } from "./type";
+import { CustomUserRequest } from "./type";
 
 export const checkExistingMember = async (
-  req: CustomRequest,
+  req: CustomUserRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -20,7 +20,7 @@ export const checkExistingMember = async (
   next();
 };
 
-export const login = (req: CustomRequest, res: Response) => {
+export const login = (req: CustomUserRequest, res: Response) => {
   if (req.member?.password !== req.body.password) {
     res.status(401).send({ message: AUTH_ERROR_MESSAGES.pw });
     return;
@@ -30,7 +30,7 @@ export const login = (req: CustomRequest, res: Response) => {
 };
 
 export const checkValidEmail = async (
-  req: CustomRequest,
+  req: CustomUserRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -45,7 +45,7 @@ export const checkValidEmail = async (
   next();
 };
 
-export const signup = async (req: CustomRequest, res: Response) => {
+export const signup = async (req: CustomUserRequest, res: Response) => {
   const { newMemberData } = req.body;
 
   const newMember = await User.create(newMemberData);
