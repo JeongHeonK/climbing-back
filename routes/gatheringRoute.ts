@@ -1,19 +1,27 @@
 import express from "express";
+import {
+  getGatherings,
+  getGathering,
+  createGathering,
+  editGathering,
+  deleteGathering,
+  getMyGatherings,
+} from "../service/gathering";
 
 const gatheringRoute = express.Router();
 
 // 페이지 초기 진입 요청
-gatheringRoute.get("/");
+gatheringRoute.get("/", getGatherings);
 
-gatheringRoute.get("/:id");
+gatheringRoute.get("/:id", getGathering);
 
-gatheringRoute.post("/");
+gatheringRoute.post("/", createGathering);
 
-gatheringRoute.patch("/:id");
+gatheringRoute.patch("/:id", editGathering);
 
-gatheringRoute.delete("/:id");
+gatheringRoute.delete("/:id", deleteGathering);
 
 // 찜하기시 사용 예정
-gatheringRoute.get("/myGathering");
+gatheringRoute.post("/myGathering", getMyGatherings);
 
 export default gatheringRoute;
