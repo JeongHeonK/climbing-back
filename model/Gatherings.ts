@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const GatheringsSchema = new mongoose.Schema(
   {
@@ -27,9 +27,9 @@ const GatheringsSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Gatherings = mongoose.model("Gatherings", GatheringsSchema);
+const Gatherings = mongoose.model('Gatherings', GatheringsSchema);
 
 export default Gatherings;
