@@ -1,12 +1,12 @@
-import { NextFunction, Response } from "express";
-import User from "../model/User";
-import { AUTH_ERROR_MESSAGES } from "../constant";
-import { CustomUserRequest } from "./type";
+import { NextFunction, Response } from 'express';
+import User from '../model/User';
+import { AUTH_ERROR_MESSAGES } from '../constant';
+import { CustomUserRequest } from './type';
 
 export const checkExistingMember = async (
   req: CustomUserRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { email } = req.body;
   const member = await User.findOne({ email });
@@ -26,13 +26,13 @@ export const login = (req: CustomUserRequest, res: Response) => {
     return;
   }
 
-  res.status(200).send("login success");
+  res.status(200).send('login success');
 };
 
 export const checkValidEmail = async (
   req: CustomUserRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { email } = req.body;
   const existingEmail = await User.findOne({ email });
@@ -48,7 +48,7 @@ export const checkValidEmail = async (
 export const signup = async (req: CustomUserRequest, res: Response) => {
   const { newMemberData } = req.body;
 
-  const newMember = await User.create(newMemberData);
+  await User.create(newMemberData);
 
-  res.send(200).send({ message: "success" });
+  res.send(200).send({ message: 'success' });
 };

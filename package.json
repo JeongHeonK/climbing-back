@@ -4,23 +4,31 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "tsc-watch --onSuccess \"nodemon dist/index.js\""
+    "dev": "tsc-watch --onSuccess \"nodemon dist/index.js\"",
+    "lint": "eslint ."
   },
   "keywords": [],
-  "author": "",
+  "author": "henry",
   "license": "ISC",
-  "description": "",
+  "description": "climb-back-end",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^7.8.6"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
     "@types/express": "^5.0.0",
-    "eslint": "^9.19.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^15.14.0",
     "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
     "tsc-watch": "^6.2.1",
     "tslint-config-airbnb": "^5.11.2",
-    "typescript": "^5.7.3"
+    "typescript": "~5.5",
+    "typescript-eslint": "^7.18.0"
   }
 }

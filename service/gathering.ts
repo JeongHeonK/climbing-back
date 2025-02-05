@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import Gatherings from "../model/Gatherings";
+import { Request, Response } from 'express';
+import Gatherings from '../model/Gatherings';
 
 export const getGatherings = async (req: Request, res: Response) => {
   const page = Number(req.params.page);
   const skipCount = (page - 1) * 8;
   const gatherings = await Gatherings.find({})
-    .sort("-createdAt")
+    .sort('-createdAt')
     .skip(skipCount)
     .limit(9);
 
@@ -29,9 +29,9 @@ export const getGathering = async (req: Request, res: Response) => {
 export const createGathering = async (req: Request, res: Response) => {
   const newGathering = { ...req.body };
 
-  const result = await Gatherings.create(newGathering);
+  await Gatherings.create(newGathering);
 
-  res.status(201).send("success");
+  res.status(201).send('success');
 };
 
 export const editGathering = async (req: Request, res: Response) => {
@@ -45,15 +45,15 @@ export const editGathering = async (req: Request, res: Response) => {
   const result = await Gatherings.findByIdAndUpdate(
     id,
     { $set: newData },
-    { new: true }
+    { new: true },
   );
 
   if (!result) {
-    res.status(404).send("Document not found");
+    res.status(404).send('Document not found');
     return;
   }
 
-  res.status(200).send("success");
+  res.status(200).send('success');
 };
 
 export const deleteGathering = async (req: Request, res: Response) => {
@@ -62,11 +62,11 @@ export const deleteGathering = async (req: Request, res: Response) => {
   const result = await Gatherings.findByIdAndDelete(id);
 
   if (!result) {
-    res.status(404).send("Document not found");
+    res.status(404).send('Document not found');
     return;
   }
 
-  res.status(200).send("success");
+  res.status(200).send('success');
 };
 
 export const getMyGatherings = async (req: Request, res: Response) => {
@@ -75,7 +75,7 @@ export const getMyGatherings = async (req: Request, res: Response) => {
   const results = await Gatherings.find({ _id: { $in: ids } });
 
   if (!results) {
-    res.status(500).send("cannot find gatherings");
+    res.status(500).send('cannot find gatherings');
     return;
   }
 
