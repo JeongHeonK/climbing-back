@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsc-watch --onSuccess \"nodemon dist/index.js\"",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "henry",
@@ -17,8 +18,11 @@
     "mongoose": "^7.8.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.7",
+    "@babel/preset-env": "^7.26.7",
     "@eslint/js": "^9.19.0",
     "@types/express": "^5.0.0",
+    "babel-loader": "^9.2.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.31.0",
@@ -30,7 +34,7 @@
     "tslint-config-airbnb": "^5.11.2",
     "typescript": "~5.5",
     "typescript-eslint": "^7.18.0",
-    "webpack": "4.47.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.97.1",
+    "webpack-cli": "^4.10.0"
   }
 }
