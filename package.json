@@ -29,6 +29,7 @@
     "tsc-watch": "^6.2.1",
     "tslint-config-airbnb": "^5.11.2",
     "typescript": "~5.5",
-    "typescript-eslint": "^7.18.0"
+    "typescript-eslint": "^7.18.0",
+    "webpack": "4.47.0"
   }
 }
