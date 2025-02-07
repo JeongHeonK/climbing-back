@@ -1,9 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { AUTH_ERROR_MESSAGES } from '../../constant';
 import { CustomUserRequest } from '../type';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { user } from 'data/prisma';
 
 export const checkExistingMember = async (
   req: CustomUserRequest,
@@ -12,7 +10,7 @@ export const checkExistingMember = async (
 ) => {
   const { email } = req.query;
 
-  const member = await prisma.user.findUnique({
+  const member = await user.findUnique({
     where: { email: String(email) },
   });
 
