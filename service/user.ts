@@ -8,7 +8,7 @@ export const checkExistingMember = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { email } = req.body;
+  const { email } = req.query;
   const member = await User.findOne({ email });
 
   if (!member) {
