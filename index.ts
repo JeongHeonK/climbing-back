@@ -1,8 +1,8 @@
 import express from 'express';
 import 'dotenv/config';
-import mongoose from 'mongoose';
-import { PORT, URL } from './constant';
-import { loginRoute, signupRoute, gatheringRoute } from './routes';
+// import mongoose from 'mongoose';
+import { PORT } from './constant';
+import { signupRoute, gatheringRoute, loginRoute } from './routes';
 
 const app = express();
 
@@ -14,4 +14,4 @@ app.use('/signup', signupRoute);
 app.use('/gathering', gatheringRoute);
 
 app.listen(PORT, () => console.log('Server started'));
-mongoose.connect(URL).then(() => console.log('connect db'));
+// mongoose.connect(URL).then(() => console.log('connect db'));

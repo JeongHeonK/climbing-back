@@ -1,8 +1,9 @@
 import express from 'express';
-import { checkExistingMember, login } from '../service/user';
+import { checkExistingMember } from '../service/migrate/user';
+// import { checkExistingMember, login } from '../service/user';
 
 const loginRoute = express.Router();
 
-loginRoute.get('/', checkExistingMember, login);
+loginRoute.get('/', checkExistingMember);
 
 export default loginRoute;
