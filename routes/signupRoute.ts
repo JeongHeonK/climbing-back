@@ -1,8 +1,8 @@
 import express from 'express';
-import { checkValidEmail, signup } from '../service/user';
+import { checkValidEmail, createUser } from '../service/migrate/user';
 
 const signupRoute = express.Router();
 
-signupRoute.post('/', checkValidEmail, signup);
+signupRoute.post('/', checkValidEmail, createUser);
 
 export default signupRoute;
