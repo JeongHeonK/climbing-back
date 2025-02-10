@@ -81,7 +81,7 @@ export const editGathering = async (req: Request, res: Response) => {
     return;
   }
 
-  res.status(200).send(result);
+  res.status(200).send('success');
 };
 
 export const deleteGathering = async (req: Request, res: Response) => {
