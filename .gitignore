@@ -22,6 +22,8 @@
 
 /dist
 
+/http
+
 # misc
 .DS_Store
 *.pem
