@@ -6,7 +6,7 @@ import {
   editGathering,
   deleteGathering,
   getMyGatherings,
-} from '../service/gathering';
+} from '../service/migrate/gathering';
 
 const gatheringRoute = express.Router();
 
