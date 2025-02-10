@@ -3,16 +3,25 @@ import { gathering } from '../../data/prisma';
 
 export const getGatherings = async (req: Request, res: Response) => {
   const { cursor } = req.query;
-
-  const cursorString = typeof cursor === 'string' ? cursor : undefined;
-
-  const gatherings = await gathering.findMany({
-    where: cursorString ? { id: { lt: cursorString } } : {},
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 8,
-  });
+  let gatherings;
+  if (cursor) {
+    gatherings = await gathering.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: 1,
+      take: 8,
+      cursor: { id: cursor?.toString() },
+    });
+  } else {
+    gatherings = await gathering.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: 0,
+      take: 8,
+    });
+  }
 
   const lastPost = gatherings.at(7);
   const lastCursor = lastPost?.id;
