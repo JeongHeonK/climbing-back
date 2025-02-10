@@ -67,16 +67,13 @@ export const createGathering = async (req: Request, res: Response) => {
 };
 
 export const editGathering = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log(id);
   const newGatheringData = { ...req.body };
-  const id = newGatheringData.docId;
-
-  delete newGatheringData.docId;
-
-  const newData = newGatheringData;
 
   const result = await gathering.update({
     where: { id },
-    data: { ...newData },
+    data: { ...newGatheringData },
   });
 
   if (!result) {
@@ -84,7 +81,7 @@ export const editGathering = async (req: Request, res: Response) => {
     return;
   }
 
-  res.status(200).send('success');
+  res.status(200).send(result);
 };
 
 export const deleteGathering = async (req: Request, res: Response) => {
