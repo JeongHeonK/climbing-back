@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express';
 import { AUTH_ERROR_MESSAGES } from '../../constant';
 import { CustomUserRequest } from '../type';
 import { user } from '../../data/prisma';
+import { hashPassword, checkHashedPassword } from '../../util/util';
 
 // 로그인시 사용
 export const checkUserMail = async (
@@ -26,7 +27,16 @@ export const checkUserMail = async (
 };
 
 export const checkUserPassword = (req: CustomUserRequest, res: Response) => {
-  if (req.member?.password !== req.body.password) {
+  let isValidPassword;
+
+  if (req.member?.password) {
+    isValidPassword = checkHashedPassword(
+      req.body.password,
+      req.member?.password,
+    );
+  }
+
+  if (!isValidPassword) {
     res.status(401).send({ message: AUTH_ERROR_MESSAGES.pw });
     return;
   }
@@ -46,20 +56,26 @@ export const checkValidEmail = async (
   });
 
   if (existingEmail) {
-    res.status(401).send({ message: AUTH_ERROR_MESSAGES.existingEmail });
+    res.status(422).send({ message: AUTH_ERROR_MESSAGES.existingEmail });
     return;
   }
 
   next();
 };
 
-export const createUser = async (req: CustomUserRequest, res: Response) => {
+export const createUser = async (
+  req: CustomUserRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   const { newMemberData } = req.body;
-  console.log(newMemberData);
+  const hashedPassword = hashPassword(newMemberData.password);
+  const storingUser = { ...newMemberData, password: hashedPassword };
+
   try {
-    await user.create({ data: newMemberData });
+    await user.create({ data: storingUser });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 
   res.status(200).send({ message: 'success' });
