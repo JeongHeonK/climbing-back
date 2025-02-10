@@ -1,52 +1,80 @@
 import { Request, Response } from 'express';
-import Gatherings from '../model/Gatherings';
+import { gathering } from '../data/prisma';
 
 export const getGatherings = async (req: Request, res: Response) => {
-  const page = Number(req.params.page);
-  const skipCount = (page - 1) * 8;
-  const gatherings = await Gatherings.find({})
-    .sort('-createdAt')
-    .skip(skipCount)
-    .limit(9);
-
-  let hasNext = false;
-
-  if (gatherings.length > 8) {
-    hasNext = true;
+  const { cursor } = req.query;
+  let gatherings;
+  if (cursor) {
+    gatherings = await gathering.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: 1,
+      take: 8,
+      cursor: { id: cursor?.toString() },
+    });
+  } else {
+    gatherings = await gathering.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: 0,
+      take: 8,
+    });
   }
 
-  res.send(200).send({ gatherings, hasNext });
+  const lastPost = gatherings.at(7);
+  const lastCursor = lastPost?.id;
+
+  res.status(200).send({ gatherings, lastCursor });
 };
 
 export const getGathering = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const gathering = await Gatherings.findById(id);
+  const result = await gathering.findUnique({ where: { id } });
 
-  res.status(200).send(gathering);
+  res.status(200).send(result);
 };
 
 export const createGathering = async (req: Request, res: Response) => {
-  const newGathering = { ...req.body };
+  const {
+    title = '',
+    description = '',
+    lat = '',
+    lng = '',
+    authorId = '',
+  } = req.body;
 
-  await Gatherings.create(newGathering);
+  if (!title || !description || !lat || !lng || !authorId) {
+    res.status(400).json({ error: 'All fields are required' });
+    return;
+  }
+
+  await gathering.create({
+    data: {
+      title,
+      description,
+      lat,
+      lng,
+      author: {
+        connect: { id: authorId },
+      },
+    },
+  });
 
   res.status(201).send('success');
 };
 
 export const editGathering = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log(id);
   const newGatheringData = { ...req.body };
-  const id = newGatheringData.docId;
 
-  delete newGatheringData.docId;
-
-  const newData = newGatheringData;
-
-  const result = await Gatherings.findByIdAndUpdate(
-    id,
-    { $set: newData },
-    { new: true },
-  );
+  const result = await gathering.update({
+    where: { id },
+    data: { ...newGatheringData },
+  });
 
   if (!result) {
     res.status(404).send('Document not found');
@@ -59,7 +87,7 @@ export const editGathering = async (req: Request, res: Response) => {
 export const deleteGathering = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const result = await Gatherings.findByIdAndDelete(id);
+  const result = await gathering.delete({ where: { id } });
 
   if (!result) {
     res.status(404).send('Document not found');
@@ -72,7 +100,7 @@ export const deleteGathering = async (req: Request, res: Response) => {
 export const getMyGatherings = async (req: Request, res: Response) => {
   const { ids } = req.body;
 
-  const results = await Gatherings.find({ _id: { $in: ids } });
+  const results = await gathering.findMany({ where: { id: { in: ids } } });
 
   if (!results) {
     res.status(500).send('cannot find gatherings');

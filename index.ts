@@ -14,4 +14,3 @@ app.use('/signup', signupRoute);
 app.use('/gathering', gatheringRoute);
 
 app.listen(PORT, () => console.log('Server started'));
-// mongoose.connect(URL).then(() => console.log('connect db'));

@@ -1,6 +1,5 @@
 import express from 'express';
-import { checkUserMail, checkUserPassword } from '../service/migrate/user';
-// import { checkExistingMember, login } from '../service/user';
+import { checkUserMail, checkUserPassword } from '../service/user';
 
 const loginRoute = express.Router();
 
